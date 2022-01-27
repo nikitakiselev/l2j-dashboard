@@ -2,6 +2,9 @@
     <div class="card">
         <div class="card-header" v-if="title">
             <h3 class="card-title">{{ title }}</h3>
+            <div class="card-tools">
+                <slot name="tools"/>
+            </div>
         </div>
 
         <div class="card-body" :class="class">
