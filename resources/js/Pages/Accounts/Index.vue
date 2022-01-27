@@ -35,7 +35,12 @@
                 </thead>
                 <tbody>
                 <tr v-for="account in accounts">
-                    <td>{{ account.login }}</td>
+                    <td>
+                        {{ account.login }}
+                        <span :class="{'badge': true, 'badge-danger': account.accessLevel === -1, 'badge-success': account.accessLevel !== -1}">
+                            {{ account.accessLevel === -1 ? 'Inactive' : 'Active' }}
+                        </span>
+                    </td>
                     <td>{{ account.email }}</td>
                     <td>{{ account.created_time }}</td>
                     <td>{{ account.lastactive }}</td>
