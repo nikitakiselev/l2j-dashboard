@@ -57,7 +57,7 @@ class Account extends Model
 
     public function getLastactiveAttribute($value): ?Carbon
     {
-        if (! is_int($value)) {
+        if (! is_int($value) || $value <= 0) {
             return null;
         }
 

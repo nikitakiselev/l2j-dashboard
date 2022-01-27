@@ -42,8 +42,8 @@
                         </span>
                     </td>
                     <td>{{ account.email }}</td>
-                    <td>{{ account.created_time }}</td>
-                    <td>{{ account.lastactive }}</td>
+                    <td>{{ formatDate(account.created_time) }}</td>
+                    <td>{{ formatDate(account.lastactive) }}</td>
                     <td :title="account.accessLevel">{{ account.access_level_text }}</td>
                     <td>{{ account.lastIP }}</td>
                     <td>{{ account.last_game_server?.host }}</td>
@@ -61,6 +61,7 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import {Head, Link} from '@inertiajs/inertia-vue3';
 import Card from '@/Components/Card';
+import moment from 'moment';
 
 export default {
     components: {
@@ -75,6 +76,16 @@ export default {
             type: Array,
             default: () => [],
         },
-    }
+    },
+
+    methods: {
+        formatDate(date) {
+            if (! date) {
+                return '';
+            }
+
+            return moment(date).format('llll');
+        }
+    },
 }
 </script>
