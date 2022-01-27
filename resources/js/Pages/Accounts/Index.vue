@@ -44,7 +44,7 @@
                     <td>{{ account.email }}</td>
                     <td>{{ account.created_time }}</td>
                     <td>{{ account.lastactive }}</td>
-                    <td>{{ account.accessLevel }}</td>
+                    <td :title="account.accessLevel">{{ account.access_level_text }}</td>
                     <td>{{ account.lastIP }}</td>
                     <td>{{ account.last_game_server?.host }}</td>
                     <td>

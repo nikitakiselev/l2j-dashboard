@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $login
+ * @property string $email
+ * @property int $accessLevel
+ */
 class Account extends Model
 {
     protected $connection = 'mysql_l2jls';
@@ -47,6 +51,10 @@ class Account extends Model
         'accessLevel',
     ];
 
+    protected $appends = [
+        'access_level_text',
+    ];
+
     public function getLastactiveAttribute($value): ?Carbon
     {
         if (! is_int($value)) {
@@ -64,5 +72,10 @@ class Account extends Model
     public function lastGameServer(): BelongsTo
     {
         return $this->belongsTo(GameServer::class, 'lastServer', 'server_id');
+    }
+
+    public function getAccessLevelTextAttribute(): string
+    {
+        return static::$accessLevels[$this->accessLevel] ?? '';
     }
 }
