@@ -14,6 +14,10 @@
         <div class="card-footer" v-if="$slots.footer">
             <slot name="footer"/>
         </div>
+
+        <div class="overlay" v-if="loading">
+            <i class="fas fa-stroopwafel fa-4x fa-spin"></i>
+        </div>
     </div>
 </template>
 
@@ -28,6 +32,11 @@ export default {
         title: {
             type: String,
             default: '',
+        },
+
+        loading: {
+            type: Boolean,
+            default: false,
         }
     }
 };

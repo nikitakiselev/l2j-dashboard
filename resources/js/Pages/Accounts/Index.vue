@@ -4,7 +4,7 @@
     <BreezeAuthenticatedLayout>
         <Card title="Accounts">
             <template v-slot:tools>
-                <ul class="pagination pagination-sm float-right">
+                <ul class="pagination pagination-sm">
                     <li class="page-item"><a class="page-link" href="#">«</a></li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -12,6 +12,13 @@
                     <li class="page-item"><a class="page-link" href="#">»</a></li>
                 </ul>
             </template>
+
+            <div class="mb-2">
+                <Link :href="route('accounts.create')" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Register new account
+                </Link>
+            </div>
 
             <table class="table">
                 <thead>

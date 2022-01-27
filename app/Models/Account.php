@@ -16,8 +16,36 @@ class Account extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    public static array $accessLevels = [
+        -1 => 'Banned',
+        0 => 'User',
+        1 => 'Chat Moderator',
+        2 => 'Test GM',
+        3 => 'General GM',
+        4 => 'Support GM',
+        5 => 'Event GM',
+        6 => 'Head GM',
+        7 => 'Admin',
+        8 => 'Master',
+    ];
+
     protected $dates = [
         'created_time' => 'datetime'
+    ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    protected $guarded = [
+        'password',
+    ];
+
+    protected $fillable = [
+        'login',
+        'password',
+        'email',
+        'accessLevel',
     ];
 
     public function getLastactiveAttribute($value): ?Carbon

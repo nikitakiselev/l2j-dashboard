@@ -31,6 +31,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/accounts', [AccountsController::class, 'index'])->name('accounts.index');
+    Route::get('/accounts/create', [AccountsController::class, 'create'])->name('accounts.create');
+    Route::post('/accounts', [AccountsController::class, 'store'])->name('accounts.store');
 });
 
 require __DIR__.'/auth.php';
