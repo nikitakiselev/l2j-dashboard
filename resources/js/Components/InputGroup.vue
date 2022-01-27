@@ -12,6 +12,7 @@
                     :value="modelValue"
                     :name="name"
                     :id="componentId"
+                    :disabled="disabled"
                     @input="$emit('update:modelValue', $event.target.value)"
                 />
                 <div v-if="icon" class="input-group-append">
@@ -34,6 +35,7 @@
                     :value="modelValue"
                     :name="name"
                     :id="componentId"
+                    :disabled="disabled"
                     @input="$emit('update:modelValue', $event.target.value)"
                 />
                 <div v-if="icon" class="input-group-append">
@@ -94,6 +96,11 @@ export default {
         label: String,
 
         horizontal: Boolean,
+
+        disabled: {
+            type: Boolean,
+            default: false,
+        }
     },
 
     created() {

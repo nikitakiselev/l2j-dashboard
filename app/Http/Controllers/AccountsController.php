@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,10 +22,7 @@ class AccountsController extends Controller
 
     public function create(): Response
     {
-        $accessLevels = collect(Account::$accessLevels)->map(fn($value, $key) => [
-            'id' => $key,
-            'text' => sprintf('(%d) - %s', $key, $value),
-        ]);
+        $accessLevels = $this->getAccessLevelsOptions();
 
         return Inertia::render('Accounts/Create', compact('accessLevels'));
     }
@@ -38,9 +36,47 @@ class AccountsController extends Controller
             'accessLevel' => 'required|integer|min:-1|max:8',
         ]);
 
-        $account = Account::create($request->all());
+        $account = new Account();
+        $account->forceFill($request->only([
+            'login',
+            'password',
+            'email',
+            'accessLevel',
+        ]));
+        $account->save();
 
         return redirect()->route('accounts.index')
             ->with('success', "New account {$account->login} has been created.");
+    }
+
+    public function edit(string $login): Response
+    {
+        $account = Account::findOrFail($login);
+        $accessLevels = $this->getAccessLevelsOptions();
+
+        return Inertia::render('Accounts/Edit', compact('account', 'accessLevels'));
+    }
+
+    public function update(string $login, Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'accessLevel' => 'required|integer|min:-1|max:8',
+        ]);
+
+        $account = Account::findOrFail($login);
+
+        $account->update($request->only('email', 'accessLevel'));
+
+        return redirect()->route('accounts.index')
+            ->with('success', "Account {$account->login} has been updated.");
+    }
+
+    public function getAccessLevelsOptions(): Collection
+    {
+        return collect(Account::$accessLevels)->map(fn($value, $key) => [
+            'id' => $key,
+            'text' => sprintf('(%d) - %s', $key, $value),
+        ]);
     }
 }

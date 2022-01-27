@@ -4,7 +4,10 @@
             <label class="col-sm-2 col-form-label" v-if="label" :for="componentId">{{ label }}</label>
             <div class="col-sm-10">
                 <select class="form-control" @change="change">
-                    <option v-for="option in options" :value="option.id">{{ option.text }}</option>
+                    <option v-for="option in options"
+                            :value="option.id"
+                            :selected="option.id === modelValue"
+                    >{{ option.text }}</option>
                 </select>
             </div>
         </div>

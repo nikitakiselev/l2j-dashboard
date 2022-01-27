@@ -43,7 +43,6 @@ class Account extends Model
 
     protected $fillable = [
         'login',
-        'password',
         'email',
         'accessLevel',
     ];

@@ -3,7 +3,7 @@
 
     <BreezeAuthenticatedLayout>
         <div class="col-md-6">
-            <Card title="Register new account" :loading="form.processing">
+            <Card title="Edit account" :loading="form.processing">
                 <form autocomplete="off" @submit.prevent="submit">
                     <InputGroup
                         type="text"
@@ -12,17 +12,8 @@
                         label="Login"
                         horizontal
                         :error="form.errors.login"
+                        :disabled="true"
                         v-model="form.login"
-                    />
-
-                    <InputGroup
-                        type="password"
-                        name="password"
-                        placeholder="Password for login"
-                        label="Password"
-                        horizontal
-                        :error="form.errors.password"
-                        v-model="form.password"
                     />
 
                     <InputGroup
@@ -47,9 +38,10 @@
                 <template v-slot:footer>
                     <button type="button"
                             class="btn btn-primary"
+                            :disabled="! form.isDirty"
                             @click="submit"
                     >
-                        Register new account
+                        Update account
                     </button>
                 </template>
             </Card>
@@ -86,6 +78,11 @@ export default {
     },
 
     props: {
+        account: {
+            required: true,
+            type: Object,
+        },
+
         accessLevels: {
             type: Array,
             default: () => [],
@@ -94,8 +91,12 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route('accounts.store'));
+            this.form.put(this.route('accounts.update', this.account.login));
         }
     },
+
+    created() {
+        this.form = this.$inertia.form(this.account);
+    }
 }
 </script>

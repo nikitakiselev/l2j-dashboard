@@ -42,7 +42,9 @@
                     <td>{{ account.accessLevel }}</td>
                     <td>{{ account.lastIP }}</td>
                     <td>{{ account.last_game_server?.host }}</td>
-                    <td></td>
+                    <td>
+                        <Link :href="route('accounts.edit', account.login)">Edit</Link>
+                    </td>
                 </tr>
                 </tbody>
             </table>
