@@ -16,8 +16,16 @@
                     </div>
                     <div class="info text-white">
                         <div>
-                            {{ $page.props.auth.user.name }}
-                            <Link :href="route('logout')" method="post">[Logout]</Link>
+                            <span class="mr-4">{{ $page.props.auth.user.name }}</span>
+
+                            <Link
+                                method="post"
+                                as="button"
+                                class="btn btn-default"
+                                :href="route('logout')"
+                            >
+                                <i class="fa fa-sign-out-alt"></i>
+                            </Link>
                         </div>
                     </div>
                 </div>
