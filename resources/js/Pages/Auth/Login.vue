@@ -1,40 +1,49 @@
 <template>
     <Head title="Log in" />
 
-    <BreezeValidationErrors class="mb-4" />
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/"><b>L2J</b>Dashboard</a>
+        </div>
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-        {{ status }}
+        <Card class="login-card-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+
+            <form @submit.prevent="submit">
+                <InputGroup
+                    type="email"
+                    name="password"
+                    placeholder="Email"
+                    icon="envelope"
+                    :error="form.errors.email"
+                    v-model="form.email"
+                />
+
+                <InputGroup
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    icon="lock"
+                    :error="form.errors.password"
+                    v-model="form.password"
+                />
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember" v-model="form.remember" class="mr-2">
+                            <label for="remember">
+                                Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </Card>
     </div>
-
-    <form @submit.prevent="submit">
-        <div>
-            <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-        </div>
-
-        <div class="mt-4">
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-        </div>
-
-        <div class="block mt-4">
-            <label class="flex items-center">
-                <BreezeCheckbox name="remember" v-model:checked="form.remember" />
-                <span class="ml-2 text-sm text-gray-600">Remember me</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Forgot your password?
-            </Link>
-
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Log in
-            </BreezeButton>
-        </div>
-    </form>
 </template>
 
 <script>
@@ -45,6 +54,8 @@ import BreezeInput from '@/Components/Input.vue'
 import BreezeLabel from '@/Components/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import Card from '@/Components/Card.vue';
+import InputGroup from '@/Components/InputGroup.vue';
 
 export default {
     layout: BreezeGuestLayout,
@@ -55,6 +66,8 @@ export default {
         BreezeInput,
         BreezeLabel,
         BreezeValidationErrors,
+        Card,
+        InputGroup,
         Head,
         Link,
     },
@@ -66,10 +79,11 @@ export default {
 
     data() {
         return {
+            email: '',
             form: this.$inertia.form({
                 email: '',
                 password: '',
-                remember: false
+                remember: true
             })
         }
     },
@@ -80,6 +94,10 @@ export default {
                 onFinish: () => this.form.reset('password'),
             })
         }
+    },
+
+    mounted() {
+        ['login-page', 'hold-transition'].forEach(item => document.body.classList.add(item));
     }
 }
 </script>
