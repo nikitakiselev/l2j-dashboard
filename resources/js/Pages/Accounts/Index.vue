@@ -74,6 +74,14 @@
                             >
                                 <i class="fa fa-user-check"></i>
                             </button>
+
+                            <button
+                                class="btn btn-sm btn-default"
+                                title="Delete account"
+                                @click.prevent="deleteAccount(account)"
+                            >
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -88,6 +96,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import {Head, Link} from '@inertiajs/inertia-vue3';
 import Card from '@/Components/Card';
 import moment from 'moment';
+import swal from 'sweetalert2';
 
 export default {
     components: {
@@ -122,6 +131,31 @@ export default {
             account.accessLevel = 0;
             this.$inertia.put(route('accounts.update', account.login), account);
         },
+
+        deleteAccount(account) {
+            swal.fire({
+                title: `Are you sure want to delete ${account.login}?`,
+                text: 'It will be difficult to restore the account and the gameplay after deleting the account.',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No, cancel!',
+                confirmButtonText: `Yes, delete ${account.login}`,
+                confirmButtonColor: '#dc3545',
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        this.$inertia.delete(route('accounts.delete', account.login), {
+                            onSuccess: () => {
+                                swal.fire(
+                                    'Deleted!',
+                                    `Account ${account.login} has been deleted.`,
+                                    'success'
+                                );
+                            },
+                        });
+                    }
+                });
+        }
     },
 }
 </script>

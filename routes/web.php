@@ -17,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/accounts', [AccountsController::class, 'store'])->name('accounts.store');
     Route::get('/accounts/{login}/edit', [AccountsController::class, 'edit'])->name('accounts.edit');
     Route::put('/accounts/{login}', [AccountsController::class, 'update'])->name('accounts.update');
+    Route::delete('/accounts/{login}', [AccountsController::class, 'delete'])->name('accounts.delete');
 });
 
 require __DIR__.'/auth.php';

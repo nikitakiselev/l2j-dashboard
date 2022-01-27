@@ -72,6 +72,16 @@ class AccountsController extends Controller
             ->with('success', "Account {$account->login} has been updated.");
     }
 
+    public function delete(string $login): RedirectResponse
+    {
+        $account = Account::findOrFail($login);
+
+        $account->delete();
+
+        return redirect()->route('accounts.index')
+            ->with('success', "Account {$account->login} has been deleted.");
+    }
+
     public function getAccessLevelsOptions(): Collection
     {
         return collect(Account::$accessLevels)->map(fn($value, $key) => [
