@@ -5,14 +5,17 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property string $login
  * @property string $email
  * @property int $accessLevel
  */
-class Account extends Model
+class Account extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $connection = 'mysql_l2jls';
     protected $table = 'accounts';
     protected $primaryKey = 'login';
