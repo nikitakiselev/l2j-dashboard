@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,6 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/accounts/{login}/edit', [AccountsController::class, 'edit'])->name('accounts.edit');
     Route::put('/accounts/{login}', [AccountsController::class, 'update'])->name('accounts.update');
     Route::delete('/accounts/{login}', [AccountsController::class, 'delete'])->name('accounts.delete');
+
+    Route::get('/audit', [AuditController::class, 'index'])->name('audit.index');
 });
 
 require __DIR__.'/auth.php';
